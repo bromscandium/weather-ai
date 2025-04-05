@@ -1,8 +1,8 @@
 import express from 'express';
-import {handleLocation} from '../controllers/locationController.js';
+import {responseController} from '../controllers/responseController.js';
 
 const router = express.Router();
 
-router.post('/', handleLocation);
+router.get('/', responseController);
 
 export default router;

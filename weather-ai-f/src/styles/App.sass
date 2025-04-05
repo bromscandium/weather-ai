@@ -1,0 +1,61 @@
+.App
+    background: #f8f8f8
+    color: #000
+    transition: background 0.3s ease, color 0.3s ease
+
+    .toggleSwitch
+        position: relative
+        width: 60px
+        display: inline-block
+
+        .toggleMode
+            display: none
+
+        .toggle-switch-label
+            display: block
+            overflow: hidden
+            cursor: pointer
+            border: 2px solid #ccc
+            border-radius: 20px
+            background-color: #ccc
+            height: 30px
+            position: relative
+            transition: background-color 0.3s ease
+
+            .toggle-switch-inner
+                display: block
+                width: 200%
+                margin-left: -100%
+                transition: margin 0.3s ease
+
+            .toggle-switch-switch
+                display: block
+                width: 26px
+                margin: 2px
+                background: white
+                position: absolute
+                top: 0
+                bottom: 0
+                left: 2px
+                border-radius: 20px
+                transition: left 0.3s ease
+
+    .toggleMode:checked + .toggle-switch-label
+        background-color: #4f4f4f
+
+        .toggle-switch-switch
+            left: 32px
+
+    .input
+        background: #f8f8f8
+        color: #000
+        border: 1px solid #ccc
+
+    &.dark
+        background: #121212
+        color: #f0f0f0
+
+        .input
+            background: #1e1e1e
+            color: #fff
+            border: 1px solid #555

@@ -4,6 +4,7 @@ import {weatherToIcon} from "./functions/weatherToIcon.js";
 import {angleToDirection} from "./functions/angleToDirection.js";
 import axios from 'axios';
 import './styles/App.sass'
+import {BASE_API_URL} from "../utils/config.js";
 
 function App() {
     const inputRef = useRef(null);
@@ -19,16 +20,13 @@ function App() {
     }, [darkMode]);
 
     const handleSubmit = async (loc) => {
-        console.log(`[handleSubmit] location="${loc}" | type=${typeof loc}`);
-        if (!loc) {
-            console.warn('⚠️ No location provided!');
-            return;
-        }
+        if (!loc) return;
+
 
         dispatch({type: 'SET_LOADING', payload: true});
 
         try {
-            const response = await axios.get('http://localhost:5225/api/weather-ai', {
+            const response = await axios.get(`${BASE_API_URL}`, {
                 params: {location: loc},
             });
 
@@ -97,7 +95,7 @@ function App() {
 
             {state.loading && (
                 <div className="loader">
-                    <span className="spinner" />
+                    <span className="spinner"/>
                     <p>Loading weather data...</p>
                 </div>
             )}
@@ -116,15 +114,19 @@ function App() {
                             <img className="icon" src={state.iconPath} alt="weather icon"/>
                             <h2>{state.weather.weather[0].main}</h2>
                         </div>
+
                         <div className="temperature">
                             <h2>Current Temperature: {state.weather.main.temp}</h2>
                             <h4>Feels like: {state.weather.main.feels_like}</h4>
                         </div>
+
                         <div className="wind">
                             <h4>Wind speed: {state.weather.wind.speed} m/s</h4>
                             <h4>Wind direction: {angleToDirection(state.weather.wind.deg)}</h4>
                         </div>
+
                         <h3>{state.tip.tip}</h3>
+
                         <h4>{new Date(state.tip.date).toLocaleString('en', {
                             day: '2-digit',
                             month: 'long',

@@ -95,6 +95,13 @@ function App() {
                 }}
             />
 
+            {state.loading && (
+                <div className="loader">
+                    <span className="spinner" />
+                    <p>Loading weather data...</p>
+                </div>
+            )}
+
             {/*All info about the city*/}
             <div className={`info ${state.result && !isFocused ? 'result' : ''}`}>
                 {state.error && (

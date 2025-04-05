@@ -56,7 +56,7 @@ function App() {
 
     return (
         <div className={`App${darkMode ? ' dark' : ''}`}>
-            {/*Dark Mode Button*/}
+            {/* Dark Mode Button */}
             <div className="toggleSwitch">
                 <input
                     type="checkbox"
@@ -64,6 +64,7 @@ function App() {
                     id="toggleSwitch"
                     checked={darkMode}
                     onChange={() => setDarkMode(prev => !prev)}
+                    aria-label="Toggle Dark Mode"
                 />
                 <label className="toggle-switch-label" htmlFor="toggleSwitch">
                     <span className="toggle-switch-inner"/>
@@ -71,13 +72,13 @@ function App() {
                 </label>
             </div>
 
-            {/*Input Bar for providing city*/}
+            {/* Input container */}
             <input
                 ref={inputRef}
                 type="text"
                 className={`input ${(state.result && !state.error && !isFocused) ? 'result' : ''}`}
-                placeholder="Type your city..."
-                value={state.location}
+                placeholder={state.loading ? "Loading data..." : "Type your city..."}
+                value={state.loading ? "" : state.location}
                 onChange={(e) => {
                     dispatch({type: 'SET_LOCATION', payload: e.target.value});
                     if (state.error) dispatch({type: 'SET_ERROR', payload: null});
@@ -91,42 +92,44 @@ function App() {
                         await handleSubmit(state.location);
                     }
                 }}
+                disabled={state.loading}
             />
 
-            {state.loading && (
-                <div className="loader">
-                    <span className="spinner"/>
-                    <p>Loading weather data...</p>
+            {/*All info about the city*/}
+            {state.error && !isFocused && (
+                <div className="error-message">
+                    <p>{state.error}</p>
                 </div>
             )}
 
-            {/*All info about the city*/}
-            <div className={`info ${state.result && !isFocused ? 'result' : ''}`}>
-                {state.error && (
-                    <div className="error-message">
-                        <p>{state.error}</p>
-                    </div>
-                )}
-                {state.weather && (
-                    <div className="result">
-                        <h1>{state.weather.locationName}</h1>
-                        <div className="weather">
-                            <img className="icon" src={state.iconPath} alt="weather icon"/>
+            {state.result && !isFocused && (
+                <div className="result">
+                    <div className="header">
+                        <div className="city-name">
+                            <h1>{state.weather.locationName}</h1>
+                        </div>
+
+                        <div className="weather-info">
                             <h2>{state.weather.weather[0].main}</h2>
+                            <img className="icon" src={state.iconPath}/>
                         </div>
+                    </div>
 
-                        <div className="temperature">
-                            <h2>Current Temperature: {state.weather.main.temp}</h2>
-                            <h4>Feels like: {state.weather.main.feels_like}</h4>
-                        </div>
+                    <div className="main-info">
+                        <h2>Current Temperature: {Math.round(state.weather.main.temp)}°C</h2>
+                        <h2>Wind speed: {Math.round(state.weather.wind.speed * 3.6)} km/h</h2>
+                    </div>
 
-                        <div className="wind">
-                            <h4>Wind speed: {state.weather.wind.speed} m/s</h4>
-                            <h4>Wind direction: {angleToDirection(state.weather.wind.deg)}</h4>
-                        </div>
+                    <div className="additional-info">
+                        <h4>Feels like: {Math.round(state.weather.main.feels_like)}°C</h4>
+                        <h4>Wind direction: {angleToDirection(state.weather.wind.deg)}</h4>
+                    </div>
 
-                        <h3>{state.tip.tip}</h3>
+                    <div className="tip">
+                        <h3>Tip: {state.tip.tip}</h3>
+                    </div>
 
+                    <div className="date">
                         <h4>{new Date(state.tip.date).toLocaleString('en', {
                             day: '2-digit',
                             month: 'long',
@@ -135,10 +138,10 @@ function App() {
                             minute: '2-digit'
                         })}</h4>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
 export default App

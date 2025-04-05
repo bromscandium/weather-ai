@@ -1,24 +1,24 @@
 export function angleToDirection(angle) {
-    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-    const index = Math.round(((angle % 360) / 45)) % 8;
+    const normalized = ((angle % 360) + 360) % 360;
+    const index = Math.round(normalized / 45) % 8;
 
     switch (index) {
         case 0:
-            return 'N';
+            return 'North';
         case 1:
-            return 'NE';
+            return 'Northeast';
         case 2:
-            return 'E';
+            return 'East';
         case 3:
-            return 'SE';
+            return 'Southeast';
         case 4:
-            return 'S';
+            return 'South';
         case 5:
-            return 'SW';
+            return 'Southwest';
         case 6:
-            return 'W';
+            return 'West';
         case 7:
-            return 'NW';
+            return 'Northwest';
         default:
             return 'Unknown';
     }

@@ -10,7 +10,14 @@ export const generateTip = async (weatherData) => {
         },
         {
             role: 'user',
-            content: `Look, I am in city ${weatherData.locationName}. Weather data is:\n${JSON.stringify(weatherData, null, 2)}. What can you recommend?`
+            content: `Look, I am in city ${weatherData.locationName}. Here is the time: \n${new Date(weatherData.dt * 1000).toLocaleString('en-US', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            })}\nWeather data is:\n${JSON.stringify(weatherData, null, 2)}. What can you recommend?`
         }
     ];
 

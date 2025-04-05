@@ -22,10 +22,10 @@ export const responseController = async (req, res) => {
         date: new Date().toISOString()
     };
 
-    const weatherFilePath = path.join('data/history', 'weather.json');
+    const weatherFilePath = path.join('data', 'weather.json');
     await fs.writeFile(weatherFilePath, JSON.stringify(weatherData, null, 2));
 
-    const tipFilePath = path.join('data/history', 'tip.json');
+    const tipFilePath = path.join('data', 'tip.json');
     await fs.writeFile(tipFilePath, JSON.stringify(tipData, null, 2));
 
     return res.status(200).json({tip: tipData, weather: weatherData});

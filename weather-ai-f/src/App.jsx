@@ -1,5 +1,7 @@
 import {useReducer, useState, useRef, useEffect} from 'react';
 import {appReducer, initialState} from './functions/appReducer.js';
+import {weatherToIcon} from "./functions/weatherToIcon.js";
+import {angleToDirection} from "./functions/angleToDirection.js";
 import axios from 'axios';
 import './styles/App.sass'
 
@@ -30,13 +32,23 @@ function App() {
                 params: {location: loc},
             });
 
+            const icon = weatherToIcon(
+                response.data.weather.weather[0].main,
+                response.data.weather.dt,
+                response.data.weather.sys.sunrise,
+                response.data.weather.sys.sunset,
+                response.data.weather.timezone
+            );
+
             dispatch({
                 type: 'SET_RESULT',
                 payload: {
                     tip: response.data.tip,
-                    weather: response.data.weather
+                    weather: response.data.weather,
+                    iconPath: icon
                 }
             });
+
         } catch (error) {
             dispatch({type: 'SET_ERROR', payload: 'Something went wrong, please try again'});
         } finally {
@@ -93,7 +105,26 @@ function App() {
                 {state.weather && (
                     <div className="result">
                         <h1>{state.weather.locationName}</h1>
-                        <p>{state.tip.tip}</p>
+                        <div className="weather">
+                            <img className="icon" src={state.iconPath} alt="weather icon"/>
+                            <h2>{state.weather.weather[0].main}</h2>
+                        </div>
+                        <div className="temperature">
+                            <h2>Current Temperature: {state.weather.main.temp}</h2>
+                            <h4>Feels like: {state.weather.main.feels_like}</h4>
+                        </div>
+                        <div className="wind">
+                            <h4>Wind speed: {state.weather.wind.speed} m/s</h4>
+                            <h4>Wind direction: {angleToDirection(state.weather.wind.deg)}</h4>
+                        </div>
+                        <h3>{state.tip.tip}</h3>
+                        <h4>{new Date(state.tip.date).toLocaleString('en', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</h4>
                     </div>
                 )}
             </div>

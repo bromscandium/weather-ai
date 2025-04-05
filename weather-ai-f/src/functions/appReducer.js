@@ -5,7 +5,8 @@ export const initialState = {
     loading: false,
     result: false,
     error: null,
-}
+    iconPath: null,
+};
 
 export function appReducer(state, action) {
     switch (action.type) {
@@ -19,6 +20,7 @@ export function appReducer(state, action) {
                 location: '',
                 tip: action.payload.tip,
                 weather: action.payload.weather,
+                iconPath: action.payload.iconPath,
                 loading: false,
                 result: true,
                 error: null
@@ -31,6 +33,7 @@ export function appReducer(state, action) {
                 weather: null,
                 result: false,
                 loading: false,
+                iconPath: null,
                 error: action.payload
             };
         default:

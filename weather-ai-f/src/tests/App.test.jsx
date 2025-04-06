@@ -27,7 +27,7 @@ describe('App', () => {
         fireEvent.keyDown(input, {key: 'Enter', code: 'Enter'});
 
         await waitFor(() => {
-            expect(screen.getByText(/loading weather data/i)).toBeInTheDocument();
+            expect(screen.getByPlaceholderText(/loading data/i)).toBeInTheDocument();
         });
     })
 

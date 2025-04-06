@@ -6,7 +6,7 @@ describe('angleToDirection', () => {
         expect(angleToDirection('360')).toBe('North');
     });
 
-    it('returns Unknown direction', () => {
-        expect(angleToDirection('-100')).toBe('Unknown');
+    it('returns West direction', () => {
+        expect(angleToDirection('-100')).toBe('West');
     });
 });

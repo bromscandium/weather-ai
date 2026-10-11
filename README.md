@@ -98,14 +98,16 @@ Now you have WeatherAI up and running locally. You can experiment by searching f
 The backend server (`weather-ai-b`) requires a `.env` file for configuration. Below is an example of what the `.env` file should contain, with placeholders for your actual API keys:
 
 ```bash
-OPENAI_API_KEY=YOUR_OPENAI_API_KEY_HERE
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+GEMINI_MODEL=gemini-flash-lite-latest
 WEATHER_API_KEY=YOUR_OPENWEATHERMAP_API_KEY_HERE
 PORT=5000
 ```
 
 **Explanation of each variable:**
 
-- **OPENAI_API_KEY:** Your API key for the OpenAI service, used to authenticate requests to the OpenAI API. You can obtain this by creating an account on OpenAI’s platform and generating a secret API key.
+- **GEMINI_API_KEY:** Your Google Gemini API key, used to generate the weather tip. You can create one in Google AI Studio.
+- **GEMINI_MODEL:** Optional. The Gemini model to use; defaults to `gemini-flash-lite-latest`.
 - **WEATHER_API_KEY:** Your API key for OpenWeatherMap, used to fetch weather data. Sign up on the OpenWeatherMap website to get a free API key for current weather data.
 - **PORT:** The port number on which the Node.js backend server will run. In this example, we use `5000`. You can choose a different port if needed (especially if 5000 is in use), but make sure to also update the frontend configuration (`BASE_API_URL`) to match the new port.
 
@@ -120,7 +122,7 @@ WeatherAI is built with a modern web development stack and integrates external s
 - **Axios:** Used on the frontend (and potentially on the backend) for making HTTP requests. The React app uses Axios to send requests to the backend API.
 - **Sass (Syntactically Awesome Style Sheets):** Used for styling the React application. Sass allows writing cleaner and more modular CSS for the UI (the project includes `.sass` files for styles).
 - **OpenWeatherMap API:** An external service providing weather data. The backend calls OpenWeatherMap’s API endpoints (using the `WEATHER_API_KEY`) to retrieve current weather information for the requested city.
-- **OpenAI API:** An external service (from OpenAI) used to generate text-based advice or tips. The backend uses the OpenAI API (with the `OPENAI_API_KEY`) to create a short suggestion based on the weather. This could be implemented using OpenAI’s GPT-3/GPT-4 models to produce a human-like tip (e.g., advice on clothing or precautions for the weather).
+- **Google Gemini API:** Generates the short text tip based on the weather. The backend calls Gemini through its OpenAI-compatible endpoint with the `openai` client (using the `GEMINI_API_KEY`).
 - **dotenv:** A Node.js library (if used) to load environment variables from the `.env` file. This simplifies configuration management for the backend.
 
 All these technologies work together to deliver the functionality of WeatherAI. The choice of a separate backend and frontend gives flexibility in development and a clear separation of concerns: React handles the user experience, while Node/Express handles external API communication and forms the bridge between the UI and external services.

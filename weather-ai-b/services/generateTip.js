@@ -1,7 +1,10 @@
 import OpenAI from "openai";
 
 export const generateTip = async (weatherData) => {
-    const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+    const openai = new OpenAI({
+        apiKey: process.env.GEMINI_API_KEY,
+        baseURL: 'https://generativelanguage.googleapis.com/v1beta/openai/',
+    });
 
     const messages = [
         {
@@ -22,7 +25,7 @@ export const generateTip = async (weatherData) => {
     ];
 
     const response = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: process.env.GEMINI_MODEL || 'gemini-flash-lite-latest',
         messages: messages,
     });
 

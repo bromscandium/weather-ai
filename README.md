@@ -1,11 +1,11 @@
 # WeatherAI
 
-**WeatherAI** is a full-stack web application that shows the current weather for a given city and provides an AI-generated tip or advice based on that weather. It features a sleek user interface with both dark and light themes and runs entirely on your local machine, integrating with external APIs (OpenWeatherMap for weather data and OpenAI for generating advice) without the need for any external server deployment.
+**WeatherAI** is a full-stack web application that shows the current weather for a given city and provides an AI-generated tip or advice based on that weather. It features a sleek user interface with both dark and light themes and runs entirely on your local machine, integrating with external APIs (OpenWeatherMap for weather data and Google Gemini for generating advice) without the need for any external server deployment.
 
 **Key Features:**
 
 - Fetches real-time weather data by city name from the OpenWeatherMap API.
-- Generates a personalized weather-related advice or tip using the OpenAI API.
+- Generates a personalized weather-related advice or tip using the Google Gemini API.
 - Provides a responsive user interface built with React, including a toggle for Dark/Light mode.
 - Runs completely locally – the Node.js backend and React frontend.
 
@@ -17,12 +17,12 @@ The project repository is divided into two main folders, each representing a sub
 
 - **`weather-ai-b` (Backend):** This folder contains the Node.js backend server. It’s a lightweight Express-based API server that handles incoming requests from the frontend. The backend reads configuration from an `.env` file (for API keys and the server port) and processes requests by calling external services:
     - **OpenWeatherMap API:** For retrieving current weather data for the requested city.
-    - **OpenAI API:** For generating a suggestion or tip based on the weather information.
+    - **Google Gemini API:** For generating a suggestion or tip based on the weather information.
       The server combines the data (weather + AI-generated tip) into a JSON response and sends it back to the frontend. All backend logic (fetching data, calling APIs, formatting responses) resides here. The backend runs locally on the port specified in the `.env` file (see **Example .env** below).
 
 - **`weather-ai-f` (Frontend):** This folder contains the React frontend application. It is a single-page application that provides the user interface:
     - Users can enter a city name into a search field. Upon submission, the frontend makes a GET request to the backend (using Axios) to fetch weather info and the AI-generated advice.
-    - The UI displays the current weather (temperature, conditions, etc.) along with the tip from OpenAI. It also includes a toggle switch to change between dark mode and light mode for better user experience.
+    - The UI displays the current weather (temperature, conditions, etc.) along with the tip from Gemini. It also includes a toggle switch to change between dark mode and light mode for better user experience.
     - A configuration file `config.js` in the frontend (located in the `utils` or similar directory) defines the base URL of the backend API. This ensures the frontend knows where to send requests (e.g., `http://localhost:5000` or another port, as configured).
     - The React app was bootstrapped with a standard setup, so you'll find typical directories like `src/` (for source code, components, hooks, etc.) and `public/` (for static files). Styles are written in Sass (`.sass` files) for convenient styling, and some state is managed with React's Context/Reducer (for example, to handle the search state and results).
 
@@ -45,7 +45,7 @@ cd weather-ai
 
 **2. Backend Setup (`weather-ai-b`):**
 
-- **Configure Environment:** Before running the backend, create a `.env` file inside the `weather-ai-b` directory with the required API keys and settings (see the [Example .env](#example-env) section below for details). This includes your OpenAI and OpenWeatherMap API keys, and the port number for the server.
+- **Configure Environment:** Before running the backend, create a `.env` file inside the `weather-ai-b` directory with the required API keys and settings (see the [Example .env](#example-env) section below for details). This includes your Gemini and OpenWeatherMap API keys, and the port number for the server.
 - **Install Dependencies:** In a terminal, navigate to the `weather-ai-b` folder and install the required Node.js packages:
   ```bash
   cd weather-ai-b
@@ -80,7 +80,7 @@ cd weather-ai
 
 - With both the backend and frontend running, you can now use WeatherAI. In the web application (http://localhost:3000), type the name of a city into the input field and press **Enter**.
 - The frontend will send a request to the backend (e.g., to `http://localhost:5000?location=YourCity`) with the city name as a parameter.
-- After a brief loading period, you should see the current weather information for that city displayed (temperature, weather conditions, etc.), along with a suggestion or tip generated by the AI. For example, if the city is experiencing rain, the tip might be something like "It's rainy – remember to carry an umbrella!" (the exact message is generated dynamically by OpenAI).
+- After a brief loading period, you should see the current weather information for that city displayed (temperature, weather conditions, etc.), along with a suggestion or tip generated by the AI. For example, if the city is experiencing rain, the tip might be something like "It's rainy – remember to carry an umbrella!" (the exact message is generated dynamically by Gemini).
 - You can toggle between Light and Dark themes using the switch in the interface. This preference is saved in your browser (using local storage) so that the app remembers your chosen theme.
 - If you encounter any errors (e.g., an invalid city name or network issues), the app will display an error message. In that case, you can correct the input or try again.
 
